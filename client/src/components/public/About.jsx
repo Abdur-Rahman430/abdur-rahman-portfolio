@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { fetchProfile } from '../../services/profileApi.js';
+import { getMediaUrl } from '../../utils/mediaUtils.js';
 import {
   User,
   GraduationCap,
@@ -199,7 +200,7 @@ export default function About() {
                 {/* Resume Download (only if resumeFile exists) */}
                 {hasResume && (
                   <a
-                    href={profile.resumeFile}
+                    href={getMediaUrl(profile.resumeFile)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 text-zinc-950 font-bold text-xs hover:bg-emerald-400 transition-all shadow-md shadow-emerald-500/20 cursor-pointer"
@@ -238,7 +239,7 @@ export default function About() {
                   className="p-3 rounded-3xl bg-zinc-900/50 border border-zinc-800/80 shadow-lg overflow-hidden flex items-center justify-center max-h-56"
                 >
                   <img
-                    src={profile.profileImage}
+                    src={getMediaUrl(profile.profileImage)}
                     alt={profile.fullName || 'Profile image'}
                     onError={() => setImgError(true)}
                     className="w-full h-48 object-cover rounded-2xl"

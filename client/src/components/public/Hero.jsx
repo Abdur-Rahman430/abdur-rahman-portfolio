@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { fetchProfile } from '../../services/profileApi.js';
 import { fetchSocialLinks } from '../../services/socialLinksApi.js';
+import { getMediaUrl } from '../../utils/mediaUtils.js';
 import {
   ArrowRight,
   Download,
@@ -254,7 +255,7 @@ export default function Hero() {
             {/* Resume CTA (only when resumeFile exists) */}
             {profile.resumeFile && (
               <a
-                href={profile.resumeFile}
+                href={getMediaUrl(profile.resumeFile)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-zinc-900/80 border border-zinc-800 text-zinc-300 font-medium text-xs sm:text-sm hover:border-emerald-500/40 hover:text-emerald-400 hover:bg-zinc-900 transition-all"
@@ -305,7 +306,7 @@ export default function Hero() {
             <div className="relative w-60 h-60 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-3xl p-2 bg-zinc-900/90 border border-zinc-800/90 shadow-2xl overflow-hidden flex items-center justify-center">
               {hasImage ? (
                 <img
-                  src={profile.profileImage}
+                  src={getMediaUrl(profile.profileImage)}
                   alt={profile.fullName}
                   onError={() => setImgError(true)}
                   className="w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"

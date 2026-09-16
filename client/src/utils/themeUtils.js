@@ -17,12 +17,22 @@ export function isValidHex(color) {
 }
 
 /**
- * Applies theme colors to document root custom CSS properties.
+ * Applies theme colors to document root custom CSS properties
+ * and sets data-theme attribute for dark/light mode switching.
  * Falls back to default values for missing or invalid colors.
+ *
+ * @param {object} theme - Settings object containing color fields and defaultTheme.
  */
 export function applyTheme(theme = {}) {
   const root = document.documentElement;
   if (!root) return;
+
+  // Apply dark / light mode via data-theme attribute
+  const mode =
+    typeof theme.defaultTheme === 'string'
+      ? theme.defaultTheme.toLowerCase().trim()
+      : 'dark';
+  root.setAttribute('data-theme', mode === 'light' ? 'light' : 'dark');
 
   const primary = isValidHex(theme.primaryColor) ? theme.primaryColor : DEFAULT_THEME.primaryColor;
   const secondary = isValidHex(theme.secondaryColor) ? theme.secondaryColor : DEFAULT_THEME.secondaryColor;

@@ -1,5 +1,32 @@
 @import "tailwindcss";
 
+/* ─── Theme CSS Custom Properties ──────────────────────────────────────────── */
+/* Default values (dark theme). These are overridden by applyTheme() in JS     */
+/* and by [data-theme="light"] below for the light mode.                        */
+:root {
+  --color-primary: #10b981;
+  --color-secondary: #18181b;
+  --color-accent: #38bdf8;
+  --color-background: #09090b;
+  --color-text: #f4f4f5;
+}
+
+/* Light theme overrides — activated when applyTheme sets data-theme="light" */
+[data-theme="light"] {
+  --color-background: #f9fafb;
+  --color-text: #18181b;
+  --color-secondary: #e4e4e7;
+}
+
+/* Apply background and text color to the document body.                        */
+/* This makes admin Appearance / Website Settings color changes visible on the  */
+/* public site without touching every Tailwind class.                           */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
 /* Respect user's reduced-motion accessibility preference */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -11,4 +38,3 @@
     scroll-behavior: auto !important;
   }
 }
-

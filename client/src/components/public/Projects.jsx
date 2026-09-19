@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fetchProjects } from '../../services/projectsApi.js';
+import { getMediaUrl } from '../../utils/mediaUtils.js';
 import {
   FolderGit2,
   ExternalLink,
@@ -251,7 +252,7 @@ export default function Projects() {
                     <div>
                       {/* Project Cover Image */}
                       <ProjectCardImage
-                        src={project.projectImage}
+                        src={getMediaUrl(project.projectImage)}
                         alt={project.name || 'Project preview'}
                       />
 

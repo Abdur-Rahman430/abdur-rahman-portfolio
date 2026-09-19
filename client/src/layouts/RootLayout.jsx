@@ -4,7 +4,7 @@ import Footer from '../components/public/Footer.jsx';
 
 function RootLayout() {
   return (
-    <div className="min-h-svh bg-zinc-950 text-zinc-100 flex flex-col selection:bg-emerald-500/20 selection:text-emerald-300">
+    <div className="min-h-svh flex flex-col selection:bg-emerald-500/20 selection:text-emerald-300">
       {/* Public Sticky Navigation */}
       <Navbar />
 

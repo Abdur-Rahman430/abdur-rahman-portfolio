@@ -6,6 +6,7 @@ import {
   uploadProfileImage,
   uploadResume,
 } from '../../services/profileApi.js';
+import { getMediaUrl } from '../../utils/mediaUtils.js';
 import {
   User,
   Briefcase,
@@ -586,7 +587,7 @@ export default function AdminProfile() {
             <div className="w-28 h-28 rounded-2xl bg-zinc-950 border-2 border-dashed border-zinc-800 flex items-center justify-center overflow-hidden shrink-0 relative group">
               {formData.profileImage ? (
                 <img
-                  src={formData.profileImage}
+                  src={getMediaUrl(formData.profileImage)}
                   alt="Profile Preview"
                   className="w-full h-full object-cover"
                 />

@@ -18,13 +18,73 @@
   --color-secondary: #e4e4e7;
 }
 
-/* Apply background and text color to the document body.                        */
-/* This makes admin Appearance / Website Settings color changes visible on the  */
-/* public site without touching every Tailwind class.                           */
+/* Apply background and text color to the document body */
 body {
-  background-color: var(--color-background);
-  color: var(--color-text);
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Dynamic Primary Color overrides so Admin Appearance changes affect all buttons/badges */
+.bg-emerald-500,
+.bg-emerald-400 {
+  background-color: var(--color-primary) !important;
+}
+
+.text-emerald-400,
+.text-emerald-500,
+.text-emerald-300 {
+  color: var(--color-primary) !important;
+}
+
+.border-emerald-500,
+.border-emerald-500\/20,
+.border-emerald-500\/25,
+.border-emerald-500\/30,
+.border-emerald-500\/40 {
+  border-color: var(--color-primary) !important;
+}
+
+.bg-emerald-500\/10,
+.bg-emerald-500\/15,
+.bg-emerald-500\/20 {
+  background-color: color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+}
+
+/* Light theme card surface & border overrides */
+[data-theme="light"] footer,
+[data-theme="light"] header,
+[data-theme="light"] .bg-zinc-950 {
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+}
+
+[data-theme="light"] .bg-zinc-900,
+[data-theme="light"] .bg-zinc-900\/40,
+[data-theme="light"] .bg-zinc-900\/50,
+[data-theme="light"] .bg-zinc-900\/60,
+[data-theme="light"] .bg-zinc-900\/80,
+[data-theme="light"] .bg-zinc-900\/90 {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
+
+[data-theme="light"] .border-zinc-800,
+[data-theme="light"] .border-zinc-800\/80,
+[data-theme="light"] .border-zinc-800\/90,
+[data-theme="light"] .border-zinc-900 {
+  border-color: #e5e7eb !important;
+}
+
+[data-theme="light"] .text-zinc-100,
+[data-theme="light"] .text-zinc-200,
+[data-theme="light"] .text-zinc-300 {
+  color: #111827 !important;
+}
+
+[data-theme="light"] .text-zinc-400,
+[data-theme="light"] .text-zinc-500 {
+  color: #4b5563 !important;
 }
 
 /* Respect user's reduced-motion accessibility preference */
@@ -38,3 +98,4 @@ body {
     scroll-behavior: auto !important;
   }
 }
+

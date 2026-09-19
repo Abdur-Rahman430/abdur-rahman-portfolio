@@ -7,6 +7,7 @@ import {
   deleteProject,
   uploadProjectImage,
 } from '../../services/projectsApi.js';
+import { getMediaUrl } from '../../utils/mediaUtils.js';
 import {
   Plus,
   Edit2,
@@ -451,7 +452,7 @@ export default function AdminProjects() {
                 <div className="relative h-44 w-full bg-zinc-950 border-b border-zinc-800/80 flex items-center justify-center overflow-hidden">
                   {project.projectImage ? (
                     <img
-                      src={project.projectImage}
+                      src={getMediaUrl(project.projectImage)}
                       alt={project.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -787,7 +788,7 @@ export default function AdminProjects() {
                   <div className="w-24 h-16 rounded-xl bg-zinc-950 border border-zinc-800 overflow-hidden flex items-center justify-center shrink-0 relative group">
                     {formData.projectImage ? (
                       <img
-                        src={formData.projectImage}
+                        src={getMediaUrl(formData.projectImage)}
                         alt="Preview"
                         className="w-full h-full object-cover"
                       />

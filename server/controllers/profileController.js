@@ -41,7 +41,11 @@ export const uploadProfileImage = asyncHandler(async (req, res) => {
     });
   }
 
-  const imageUrl = `/uploads/images/${req.file.filename}`;
+  // Use Cloudinary URL (path is full URL) or local uploads fallback
+  const imageUrl =
+    req.file.path && /^https?:\/\//i.test(req.file.path)
+      ? req.file.path
+      : `/uploads/images/${req.file.filename}`;
 
   let profile = await Profile.findOne();
   if (profile) {
@@ -69,7 +73,11 @@ export const uploadResume = asyncHandler(async (req, res) => {
     });
   }
 
-  const resumeUrl = `/uploads/resumes/${req.file.filename}`;
+  // Use Cloudinary URL (path is full URL) or local uploads fallback
+  const resumeUrl =
+    req.file.path && /^https?:\/\//i.test(req.file.path)
+      ? req.file.path
+      : `/uploads/resumes/${req.file.filename}`;
 
   let profile = await Profile.findOne();
   if (profile) {
@@ -88,3 +96,4 @@ export const uploadResume = asyncHandler(async (req, res) => {
     },
   });
 });
+

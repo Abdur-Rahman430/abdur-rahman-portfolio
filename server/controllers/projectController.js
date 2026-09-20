@@ -73,7 +73,11 @@ export const uploadProjectImage = asyncHandler(async (req, res) => {
     });
   }
 
-  const imageUrl = `/uploads/projects/${req.file.filename}`;
+  // Use Cloudinary URL (path is full URL) or local uploads fallback
+  const imageUrl =
+    req.file.path && /^https?:\/\//i.test(req.file.path)
+      ? req.file.path
+      : `/uploads/projects/${req.file.filename}`;
 
   let project = null;
   if (req.params.id) {
@@ -94,3 +98,4 @@ export const uploadProjectImage = asyncHandler(async (req, res) => {
     },
   });
 });
+

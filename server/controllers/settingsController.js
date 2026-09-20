@@ -33,7 +33,7 @@ export const getSettings = asyncHandler(async (_req, res) => {
   let settings = null;
   if (mongoose.connection.readyState === 1) {
     try {
-      settings = await WebsiteSettings.findOne().select('-__v');
+      settings = await WebsiteSettings.findOne().select('-__v').lean();
     } catch (_err) {
       // If error occurs, fallback to defaults
     }

@@ -4,7 +4,8 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 export const getProjects = asyncHandler(async (_req, res) => {
   const projects = await Project.find()
     .sort({ order: 1, featured: -1, createdAt: -1 })
-    .select('-__v');
+    .select('-__v')
+    .lean();
 
   res.status(200).json({
     success: true,

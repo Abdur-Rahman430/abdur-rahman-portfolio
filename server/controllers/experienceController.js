@@ -3,7 +3,10 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 // GET /api/experience  — public
 export const getExperience = asyncHandler(async (_req, res) => {
-  const experience = await Experience.find().sort({ order: 1, startDate: -1 }).select('-__v');
+  const experience = await Experience.find()
+    .sort({ order: 1, startDate: -1 })
+    .select('-__v')
+    .lean();
 
   res.status(200).json({
     success: true,

@@ -30,8 +30,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// Serve uploaded media statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve uploaded media statically with long-lived browser caching for unique versioned files
+app.use(
+  '/uploads',
+  express.static(path.join(__dirname, 'uploads'), {
+    maxAge: '7d',
+    immutable: true,
+    etag: true,
+    lastModified: true,
+    setHeaders: (res) => {
+      res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    },
+  }),
+);
 
 app.use('/api', apiRoutes);
 

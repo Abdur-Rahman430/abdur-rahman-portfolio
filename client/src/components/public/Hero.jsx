@@ -177,8 +177,8 @@ export default function Hero() {
       className="scroll-mt-24 sm:scroll-mt-28 min-h-[75vh] flex items-center justify-center max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative overflow-hidden"
     >
       {/* Background radial glow */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-1/4 w-80 h-80 rounded-full bg-sky-500/5 blur-3xl pointer-events-none -z-10" />
+      <div className="hidden sm:block absolute top-1/2 left-1/4 -translate-y-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.08)_0%,transparent_70%)] pointer-events-none -z-10" />
+      <div className="hidden sm:block absolute bottom-10 right-1/4 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.05)_0%,transparent_70%)] pointer-events-none -z-10" />
 
       <motion.div
         variants={containerVariants}
@@ -308,9 +308,13 @@ export default function Hero() {
                 <img
                   src={getMediaUrl(profile.profileImage)}
                   alt={profile.fullName}
+                  width="320"
+                  height="320"
                   onError={() => setImgError(true)}
                   className="w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
                   loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                 />
               ) : (
                 <div className="w-full h-full rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-zinc-800 flex flex-col items-center justify-center text-center p-6 space-y-3">
@@ -325,7 +329,7 @@ export default function Hero() {
               )}
 
               {/* Decorative mini badge on avatar corner */}
-              <div className="absolute bottom-4 right-4 p-2 rounded-xl bg-zinc-950/90 border border-zinc-800 text-emerald-400 shadow-lg backdrop-blur-md">
+              <div className="absolute bottom-4 right-4 p-2 rounded-xl bg-zinc-950/95 border border-zinc-800 text-emerald-400 shadow-lg">
                 <Code2 className="w-4 h-4" />
               </div>
             </div>

@@ -1,8 +1,18 @@
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
+let cachedProfile = null;
 let inFlightProfilePromise = null;
 
-export async function fetchProfile() {
+export function clearProfileCache() {
+  cachedProfile = null;
+  inFlightProfilePromise = null;
+}
+
+export async function fetchProfile({ forceRefresh = false } = {}) {
+  if (cachedProfile && !forceRefresh) {
+    return cachedProfile;
+  }
+
   if (inFlightProfilePromise) {
     return inFlightProfilePromise;
   }
@@ -18,11 +28,13 @@ export async function fetchProfile() {
         throw error;
       }
 
+      cachedProfile = data;
       return data;
+    } catch (err) {
+      cachedProfile = null;
+      throw err;
     } finally {
-      setTimeout(() => {
-        inFlightProfilePromise = null;
-      }, 50);
+      inFlightProfilePromise = null;
     }
   })();
 
@@ -48,6 +60,12 @@ export async function saveProfile(profileData, token) {
     throw error;
   }
 
+  if (data.success && data.data) {
+    cachedProfile = data;
+  } else {
+    clearProfileCache();
+  }
+
   return data;
 }
 
@@ -71,6 +89,8 @@ export async function uploadProfileImage(file, token) {
     throw error;
   }
 
+  clearProfileCache();
+
   return data;
 }
 
@@ -93,6 +113,8 @@ export async function uploadResume(file, token) {
     error.status = response.status;
     throw error;
   }
+
+  clearProfileCache();
 
   return data;
 }

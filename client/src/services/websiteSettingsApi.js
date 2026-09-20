@@ -5,17 +5,45 @@
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
-export async function fetchWebsiteSettings() {
-  const response = await fetch(`${API_URL}/settings`);
-  const data = await response.json().catch(() => ({}));
+let cachedSettings = null;
+let inFlightSettingsPromise = null;
 
-  if (!response.ok) {
-    const error = new Error(data.message || 'Failed to load website settings');
-    error.status = response.status;
-    throw error;
+export function clearWebsiteSettingsCache() {
+  cachedSettings = null;
+  inFlightSettingsPromise = null;
+}
+
+export async function fetchWebsiteSettings({ forceRefresh = false } = {}) {
+  if (cachedSettings && !forceRefresh) {
+    return cachedSettings;
   }
 
-  return data;
+  if (inFlightSettingsPromise) {
+    return inFlightSettingsPromise;
+  }
+
+  inFlightSettingsPromise = (async () => {
+    try {
+      const response = await fetch(`${API_URL}/settings`);
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const error = new Error(data.message || 'Failed to load website settings');
+        error.status = response.status;
+        throw error;
+      }
+
+      cachedSettings = data;
+      return data;
+    } catch (err) {
+      cachedSettings = null;
+      throw err;
+    } finally {
+      inFlightSettingsPromise = null;
+    }
+  })();
+
+  return inFlightSettingsPromise;
 }
 
 export async function updateWebsiteSettings(settingsData, token) {
@@ -34,6 +62,12 @@ export async function updateWebsiteSettings(settingsData, token) {
     const error = new Error(data.message || 'Failed to update website settings');
     error.status = response.status;
     throw error;
+  }
+
+  if (data.success && data.data) {
+    cachedSettings = data;
+  } else {
+    clearWebsiteSettingsCache();
   }
 
   return data;

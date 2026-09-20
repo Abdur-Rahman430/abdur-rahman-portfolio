@@ -3,7 +3,10 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 // GET /api/education  — public
 export const getEducation = asyncHandler(async (_req, res) => {
-  const education = await Education.find().sort({ order: 1, startDate: -1 }).select('-__v');
+  const education = await Education.find()
+    .sort({ order: 1, startDate: -1 })
+    .select('-__v')
+    .lean();
 
   res.status(200).json({
     success: true,

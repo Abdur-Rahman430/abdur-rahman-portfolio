@@ -1,23 +1,35 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
 import RootLayout from './layouts/RootLayout.jsx';
 import AdminLayout from './layouts/AdminLayout.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Home from './pages/Home.jsx';
-import AdminLogin from './pages/admin/Login.jsx';
-import DashboardOverview from './pages/admin/DashboardOverview.jsx';
-import AdminProfile from './pages/admin/Profile.jsx';
-import AdminSkills from './pages/admin/Skills.jsx';
-import AdminProjects from './pages/admin/Projects.jsx';
-import AdminEducationExperience from './pages/admin/EducationExperience.jsx';
-import AdminSocialLinks from './pages/admin/SocialLinks.jsx';
-import AdminAppearance from './pages/admin/Appearance.jsx';
-import AdminWebsiteSettings from './pages/admin/WebsiteSettings.jsx';
-import AdminMessages from './pages/admin/Messages.jsx';
 import { fetchWebsiteSettings } from './services/websiteSettingsApi.js';
 import { applyTheme } from './utils/themeUtils.js';
 import { updateDocumentMetadata } from './utils/seoUtils.js';
+
+// Lazy-loaded Admin Route Components (isolated from initial public bundle)
+const AdminLogin = lazy(() => import('./pages/admin/Login.jsx'));
+const DashboardOverview = lazy(() => import('./pages/admin/DashboardOverview.jsx'));
+const AdminProfile = lazy(() => import('./pages/admin/Profile.jsx'));
+const AdminSkills = lazy(() => import('./pages/admin/Skills.jsx'));
+const AdminProjects = lazy(() => import('./pages/admin/Projects.jsx'));
+const AdminEducationExperience = lazy(() => import('./pages/admin/EducationExperience.jsx'));
+const AdminSocialLinks = lazy(() => import('./pages/admin/SocialLinks.jsx'));
+const AdminAppearance = lazy(() => import('./pages/admin/Appearance.jsx'));
+const AdminWebsiteSettings = lazy(() => import('./pages/admin/WebsiteSettings.jsx'));
+const AdminMessages = lazy(() => import('./pages/admin/Messages.jsx'));
+
+// Lightweight Admin Suspense Fallback (zero heavy dependencies)
+function AdminLoadingFallback() {
+  return (
+    <div className="min-h-[50vh] flex flex-col items-center justify-center p-6 text-zinc-400">
+      <div className="w-8 h-8 rounded-full border-2 border-emerald-500/20 border-t-emerald-400 animate-spin mb-3" />
+      <p className="text-xs font-mono">Loading console module...</p>
+    </div>
+  );
+}
 
 function App() {
   // Load and apply saved portfolio theme and SEO metadata on mount
@@ -46,30 +58,108 @@ function App() {
       isMounted = false;
     };
   }, []);
+
   return (
     <AuthProvider>
       <Routes>
-        {/* Public Portfolio */}
+        {/* Public Portfolio (Synchronously loaded for instant LCP) */}
         <Route element={<RootLayout />}>
           <Route path="/" element={<Home />} />
         </Route>
 
         {/* Public Admin Login */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/login"
+          element={
+            <Suspense fallback={<AdminLoadingFallback />}>
+              <AdminLogin />
+            </Suspense>
+          }
+        />
 
         {/* Protected Admin Routes */}
         <Route path="/admin" element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
-            <Route index element={<DashboardOverview />} />
-            <Route path="profile" element={<AdminProfile />} />
-            <Route path="skills" element={<AdminSkills />} />
-            <Route path="projects" element={<AdminProjects />} />
-            <Route path="timeline" element={<AdminEducationExperience />} />
-            <Route path="education-experience" element={<AdminEducationExperience />} />
-            <Route path="social-links" element={<AdminSocialLinks />} />
-            <Route path="messages" element={<AdminMessages />} />
-            <Route path="appearance" element={<AdminAppearance />} />
-            <Route path="settings" element={<AdminWebsiteSettings />} />
+            <Route
+              index
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <DashboardOverview />
+                </Suspense>
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <AdminProfile />
+                </Suspense>
+              }
+            />
+            <Route
+              path="skills"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <AdminSkills />
+                </Suspense>
+              }
+            />
+            <Route
+              path="projects"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <AdminProjects />
+                </Suspense>
+              }
+            />
+            <Route
+              path="timeline"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <AdminEducationExperience />
+                </Suspense>
+              }
+            />
+            <Route
+              path="education-experience"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <AdminEducationExperience />
+                </Suspense>
+              }
+            />
+            <Route
+              path="social-links"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <AdminSocialLinks />
+                </Suspense>
+              }
+            />
+            <Route
+              path="messages"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <AdminMessages />
+                </Suspense>
+              }
+            />
+            <Route
+              path="appearance"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <AdminAppearance />
+                </Suspense>
+              }
+            />
+            <Route
+              path="settings"
+              element={
+                <Suspense fallback={<AdminLoadingFallback />}>
+                  <AdminWebsiteSettings />
+                </Suspense>
+              }
+            />
           </Route>
         </Route>
 

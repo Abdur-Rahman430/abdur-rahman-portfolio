@@ -3,7 +3,10 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 
 // GET /api/social-links  — public (active only, ordered)
 export const getSocialLinks = asyncHandler(async (_req, res) => {
-  const socialLinks = await SocialLink.find({ active: true }).sort({ order: 1 }).select('-__v');
+  const socialLinks = await SocialLink.find({ active: true })
+    .sort({ order: 1 })
+    .select('-__v')
+    .lean();
 
   res.status(200).json({
     success: true,
@@ -14,7 +17,10 @@ export const getSocialLinks = asyncHandler(async (_req, res) => {
 
 // GET /api/social-links/all  — admin only (all, including inactive)
 export const getAllSocialLinks = asyncHandler(async (_req, res) => {
-  const socialLinks = await SocialLink.find().sort({ order: 1 }).select('-__v');
+  const socialLinks = await SocialLink.find()
+    .sort({ order: 1 })
+    .select('-__v')
+    .lean();
 
   res.status(200).json({
     success: true,

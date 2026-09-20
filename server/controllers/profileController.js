@@ -2,7 +2,7 @@ import Profile from '../models/Profile.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 export const getProfile = asyncHandler(async (_req, res) => {
-  const profile = await Profile.findOne().select('-__v');
+  const profile = await Profile.findOne().select('-__v').lean();
 
   res.status(200).json({
     success: true,

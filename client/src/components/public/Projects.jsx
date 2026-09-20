@@ -33,9 +33,12 @@ function ProjectCardImage({ src, alt }) {
       <img
         src={src}
         alt={alt}
+        width="640"
+        height="360"
         onError={() => setHasError(true)}
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         loading="lazy"
+        decoding="async"
       />
     </div>
   );
@@ -159,7 +162,7 @@ export default function Projects() {
       className="scroll-mt-24 sm:scroll-mt-28 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative"
     >
       {/* Subtle background ambient glow */}
-      <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-emerald-500/5 blur-3xl pointer-events-none -z-10" />
+      <div className="hidden sm:block absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none -z-10" />
 
       <div className="space-y-10">
         {/* Section Header */}

@@ -126,7 +126,7 @@ export default function About() {
       className="scroll-mt-24 sm:scroll-mt-28 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-20 relative"
     >
       {/* Subtle ambient background glow */}
-      <div className="absolute top-1/3 right-10 w-80 h-80 rounded-full bg-emerald-500/5 blur-3xl pointer-events-none -z-10" />
+      <div className="hidden sm:block absolute top-1/3 right-10 w-80 h-80 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none -z-10" />
 
       <div className="space-y-12">
         {/* Section Header */}
@@ -241,9 +241,12 @@ export default function About() {
                   <img
                     src={getMediaUrl(profile.profileImage)}
                     alt={profile.fullName || 'Profile image'}
+                    width="384"
+                    height="192"
                     onError={() => setImgError(true)}
                     className="w-full h-48 object-cover rounded-2xl"
                     loading="lazy"
+                    decoding="async"
                   />
                 </motion.div>
               )}

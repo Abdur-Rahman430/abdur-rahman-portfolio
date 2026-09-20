@@ -34,7 +34,8 @@ export const INITIAL_SKILLS = [
 export const getSkills = asyncHandler(async (_req, res) => {
   const skills = await Skill.find()
     .sort({ category: 1, order: 1, name: 1 })
-    .select('-__v');
+    .select('-__v')
+    .lean();
 
   res.status(200).json({
     success: true,

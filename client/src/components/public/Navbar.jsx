@@ -138,7 +138,7 @@ export default function Navbar() {
 
       {/* Mobile Drawer Navigation Panel */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-zinc-800/80 bg-zinc-950/95 backdrop-blur-xl px-4 pt-3 pb-5 space-y-1 shadow-2xl">
+        <div className="md:hidden border-b border-zinc-800/80 bg-zinc-950/95 px-4 pt-3 pb-5 space-y-1 shadow-2xl">
           {NAV_LINKS.map((link) => (
             <a
               key={link.name}

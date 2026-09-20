@@ -5,10 +5,20 @@
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
+let cachedSocialLinks = null;
 let inFlightSocialPromise = null;
 
+export function clearSocialLinksCache() {
+  cachedSocialLinks = null;
+  inFlightSocialPromise = null;
+}
+
 // Public — active links only
-export async function fetchSocialLinks() {
+export async function fetchSocialLinks({ forceRefresh = false } = {}) {
+  if (cachedSocialLinks && !forceRefresh) {
+    return cachedSocialLinks;
+  }
+
   if (inFlightSocialPromise) {
     return inFlightSocialPromise;
   }
@@ -24,11 +34,13 @@ export async function fetchSocialLinks() {
         throw error;
       }
 
+      cachedSocialLinks = data;
       return data;
+    } catch (err) {
+      cachedSocialLinks = null;
+      throw err;
     } finally {
-      setTimeout(() => {
-        inFlightSocialPromise = null;
-      }, 50);
+      inFlightSocialPromise = null;
     }
   })();
 
@@ -70,6 +82,8 @@ export async function createSocialLink(linkData, token) {
     throw error;
   }
 
+  clearSocialLinksCache();
+
   return data;
 }
 
@@ -91,6 +105,8 @@ export async function updateSocialLink(id, linkData, token) {
     throw error;
   }
 
+  clearSocialLinksCache();
+
   return data;
 }
 
@@ -107,6 +123,8 @@ export async function deleteSocialLink(id, token) {
     error.status = response.status;
     throw error;
   }
+
+  clearSocialLinksCache();
 
   return data;
 }

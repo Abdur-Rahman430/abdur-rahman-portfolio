@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /* ─── Theme CSS Custom Properties ──────────────────────────────────────────── */
-/* Default values (dark theme). These are overridden by applyTheme() in JS     */
-/* and by [data-theme="light"] below for the light mode.                        */
+/* Default values (Dark theme). These are overridden in Light Mode via          */
+/* [data-theme="light"] below. Dark Mode remains 100% UNCHANGED.               */
 :root {
   --color-primary: #10b981;
   --color-secondary: #18181b;
@@ -11,11 +11,15 @@
   --color-text: #f4f4f5;
 }
 
-/* Light theme overrides — activated when data-theme="light" is on <html> */
+/* Light theme CSS Custom Properties — Professional WHITE + BLUE System */
 [data-theme="light"] {
-  --color-background: #f8f7f4;
-  --color-text: #0f172a;
-  --color-secondary: #e2e0dc;
+  --color-primary: #2563eb;          /* Primary professional blue */
+  --color-primary-hover: #1d4ed8;    /* Deeper blue hover */
+  --color-primary-soft: #eff6ff;     /* Soft blue tint fill */
+  --color-primary-border: #bfdbfe;   /* Soft blue accent border */
+  --color-background: #ffffff;       /* Pure clean white base */
+  --color-text: #0f172a;             /* Deep slate primary text */
+  --color-secondary: #f8fafc;        /* Subtle slate-50 surface */
 }
 
 /* Apply background and text color to the document body */
@@ -25,7 +29,7 @@ body {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* Dynamic Primary Color overrides so Admin Appearance changes affect all buttons/badges */
+/* Dynamic Primary Color overrides for dark mode & base variables */
 .bg-emerald-500,
 .bg-emerald-400 {
   background-color: var(--color-primary) !important;
@@ -64,112 +68,196 @@ body {
 }
 
 /* =============================================================================
-   LIGHT MODE — High-Contrast & Elegant Public Component Overrides
+   LIGHT MODE — Professional WHITE + BLUE Visual Color System
    Applied ONLY when data-theme="light" is on <html>.
    Dark Mode (:root / default) is completely unchanged.
    ============================================================================= */
 
-/* ── Page structure: deepest background containers ── */
+/* ── Selection styling ── */
+[data-theme="light"] ::selection {
+  background-color: #dbeafe !important;
+  color: #1d4ed8 !important;
+}
+
+/* ── Page Structure: Clean White Base with subtle slate/blue accents ── */
 [data-theme="light"] .bg-zinc-950 {
-  background-color: #f1f0ed !important;
+  background-color: #f8fafc !important;
   color: #0f172a !important;
 }
 
-/* Navbar: initial transparent state */
+/* Header initial state */
 [data-theme="light"] header {
   background-color: transparent;
 }
 
-/* Navbar: scrolled state glass backdrop */
+/* Navbar: scrolled frosted glass state */
 [data-theme="light"] .bg-zinc-950\/80 {
-  background-color: rgba(248, 247, 244, 0.94) !important;
-  border-color: #e2e0dc !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+  background-color: rgba(255, 255, 255, 0.94) !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03) !important;
 }
 
 /* Mobile drawer panel */
 [data-theme="light"] .bg-zinc-950\/95 {
-  background-color: rgba(248, 247, 244, 0.98) !important;
-  border-color: #e2e0dc !important;
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08) !important;
 }
 
 /* Footer structure */
 [data-theme="light"] footer {
-  background-color: #f1f0ed !important;
-  border-top-color: #e2e0dc !important;
+  background-color: #f8fafc !important;
+  border-top-color: #e2e8f0 !important;
 }
 
-/* ── Card / panel surfaces (pure clean white in Light Mode) ── */
+/* Ambient glow line at top of footer */
+[data-theme="light"] footer .via-emerald-500\/30 {
+  background: linear-gradient(to right, transparent, rgba(37, 99, 235, 0.35), transparent) !important;
+}
+
+/* ── Card / Surface Containers (Crisp White with subtle borders & soft elevation) ── */
 [data-theme="light"] .bg-zinc-900,
 [data-theme="light"] .bg-zinc-900\/50,
 [data-theme="light"] .bg-zinc-900\/60,
 [data-theme="light"] .bg-zinc-900\/80,
 [data-theme="light"] .bg-zinc-900\/90 {
   background-color: #ffffff !important;
-  border-color: #e2e0dc !important;
+  border-color: #e2e8f0 !important;
 }
 
 [data-theme="light"] .bg-zinc-900\/40,
 [data-theme="light"] .bg-zinc-900\/30 {
-  background-color: rgba(255, 255, 255, 0.8) !important;
-  border-color: #e2e0dc !important;
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-color: #e2e8f0 !important;
 }
 
-/* ── Chips, badges, and inner nested containers ── */
+/* ── Inner Surfaces, Chips, Badges & Secondary Containers ── */
 [data-theme="light"] .bg-zinc-950\/70,
 [data-theme="light"] .bg-zinc-950\/60 {
-  background-color: #f8f7f4 !important;
-  border-color: #e2e0dc !important;
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
 }
 
-/* Small icon boxes, timeline node badges, skill chip icon container */
+/* Small inner icon boxes (skill chips, timeline nodes) */
 [data-theme="light"] .bg-zinc-900\/80,
 [data-theme="light"] .bg-zinc-900\/60 {
-  background-color: #f0ede9 !important;
+  background-color: #eff6ff !important;
+  border-color: #dbeafe !important;
 }
 
-/* ── Borders (clean, warm, subtle definition) ── */
+/* ── Borders (Clean Slate/Blue Subtle Definition) ── */
 [data-theme="light"] .border-zinc-800,
 [data-theme="light"] .border-zinc-800\/40,
 [data-theme="light"] .border-zinc-800\/60,
 [data-theme="light"] .border-zinc-800\/80,
 [data-theme="light"] .border-zinc-800\/90,
 [data-theme="light"] .border-zinc-900 {
-  border-color: #e2e0dc !important;
+  border-color: #e2e8f0 !important;
 }
 
 [data-theme="light"] .border-zinc-700,
 [data-theme="light"] .border-zinc-700\/60,
 [data-theme="light"] .border-zinc-700\/80 {
-  border-color: #d2cfc9 !important;
+  border-color: #cbd5e1 !important;
 }
 
-/* ── HIGH-CONTRAST TYPOGRAPHY ── */
+/* ── HIGH-CONTRAST SLATE & CHARCOAL TYPOGRAPHY ── */
 
 /* Primary Headings & Bold Titles */
 [data-theme="light"] .text-zinc-100,
 [data-theme="light"] .text-zinc-200 {
-  color: #0f172a !important; /* Rich dark slate/charcoal */
+  color: #0f172a !important; /* Slate-900: strong deep charcoal */
 }
 
-/* Strong Secondary Text / Subheadings / Nav text */
+/* Secondary Headings / Subheadings / Nav text */
 [data-theme="light"] .text-zinc-300 {
-  color: #1e293b !important; /* Deep readable charcoal */
+  color: #1e293b !important; /* Slate-800: deep readable neutral */
 }
 
 /* Navigation links, body descriptions, card body text */
 [data-theme="light"] .text-zinc-400 {
-  color: #334155 !important; /* Sharp, high-contrast readable neutral */
+  color: #334155 !important; /* Slate-700: sharp, high-contrast readable body */
 }
 
 /* Muted labels, secondary badges, timestamps */
 [data-theme="light"] .text-zinc-500 {
-  color: #475569 !important; /* Clear secondary text */
+  color: #64748b !important; /* Slate-500: clear secondary metadata */
 }
 
 /* Placeholders & tertiary metadata */
 [data-theme="light"] .text-zinc-600 {
-  color: #64748b !important;
+  color: #94a3b8 !important; /* Slate-400: readable placeholder */
+}
+
+/* ── BLUE ACCENT SYSTEM IN LIGHT MODE ── */
+
+/* Primary CTA Buttons (White text on Primary Blue) */
+[data-theme="light"] .bg-emerald-500,
+[data-theme="light"] .bg-emerald-400 {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.25) !important;
+}
+
+[data-theme="light"] .bg-emerald-500:hover,
+[data-theme="light"] .bg-emerald-400:hover {
+  background-color: #1d4ed8 !important;
+  color: #ffffff !important;
+}
+
+/* Primary buttons inner icon color */
+[data-theme="light"] .bg-emerald-500 svg,
+[data-theme="light"] .bg-emerald-400 svg {
+  color: #ffffff !important;
+}
+
+/* Blue Accent Text (Headings/Subtitles/Icons) */
+[data-theme="light"] .text-emerald-400,
+[data-theme="light"] .text-emerald-500,
+[data-theme="light"] .text-emerald-300 {
+  color: #2563eb !important;
+}
+
+/* Soft Blue Badge Backgrounds */
+[data-theme="light"] .bg-emerald-500\/10,
+[data-theme="light"] .bg-emerald-500\/15,
+[data-theme="light"] .bg-emerald-500\/20 {
+  background-color: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #2563eb !important;
+}
+
+/* Blue Accent Borders */
+[data-theme="light"] .border-emerald-500,
+[data-theme="light"] .border-emerald-500\/20,
+[data-theme="light"] .border-emerald-500\/25,
+[data-theme="light"] .border-emerald-500\/30,
+[data-theme="light"] .border-emerald-500\/40 {
+  border-color: #bfdbfe !important;
+}
+
+/* Sky-blue education badges harmonized with Blue system */
+[data-theme="light"] .bg-sky-500\/10 {
+  background-color: #eff6ff !important;
+}
+
+[data-theme="light"] .border-sky-500\/20 {
+  border-color: #bfdbfe !important;
+}
+
+[data-theme="light"] .text-sky-400 {
+  color: #2563eb !important;
+}
+
+/* Amber status / featured star badges in light mode */
+[data-theme="light"] .bg-amber-500\/10 {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+}
+
+[data-theme="light"] .text-amber-400,
+[data-theme="light"] .text-amber-300 {
+  color: #d97706 !important;
 }
 
 /* ── NAVBAR SPECIFIC REFINEMENTS ── */
@@ -178,8 +266,8 @@ body {
 }
 
 [data-theme="light"] header nav a:hover {
-  color: #0f172a !important;
-  background-color: #e8e5df !important;
+  color: #2563eb !important;
+  background-color: #eff6ff !important;
 }
 
 [data-theme="light"] header button {
@@ -187,64 +275,98 @@ body {
 }
 
 [data-theme="light"] header button:hover {
-  color: #0f172a !important;
-  background-color: #e8e5df !important;
+  color: #2563eb !important;
+  background-color: #eff6ff !important;
 }
 
-/* ── Interactive states & hovers ── */
+/* ── GENERAL INTERACTIVE STATES & HOVERS ── */
 [data-theme="light"] .hover\:bg-zinc-800\/50:hover,
 [data-theme="light"] .hover\:bg-zinc-800\/60:hover,
 [data-theme="light"] .hover\:bg-zinc-800:hover {
-  background-color: #e8e5df !important;
+  background-color: #eff6ff !important;
 }
 
 [data-theme="light"] .hover\:bg-zinc-900:hover {
-  background-color: #ede9e4 !important;
+  background-color: #f1f5f9 !important;
 }
 
 [data-theme="light"] .hover\:border-zinc-700\/80:hover,
 [data-theme="light"] .hover\:border-zinc-700:hover {
-  border-color: #b8b4ad !important;
+  border-color: #93c5fd !important;
+}
+
+[data-theme="light"] .hover\:border-emerald-500\/30:hover,
+[data-theme="light"] .hover\:border-emerald-500\/40:hover {
+  border-color: #93c5fd !important;
 }
 
 [data-theme="light"] .hover\:text-zinc-100:hover,
 [data-theme="light"] .hover\:text-zinc-200:hover,
 [data-theme="light"] .hover\:text-white:hover {
-  color: #09090b !important;
+  color: #2563eb !important;
 }
 
-[data-theme="light"] .hover\:text-zinc-300:hover {
-  color: #0f172a !important;
+[data-theme="light"] .hover\:text-emerald-400:hover {
+  color: #1d4ed8 !important;
 }
 
-/* ── Form inputs & textarea (crisp and high contrast) ── */
+/* Group hover states for titles in cards */
+[data-theme="light"] .group:hover .group-hover\:text-emerald-400 {
+  color: #2563eb !important;
+}
+
+/* ── HERO & SECTION AMBIENT BLUE GLOWS ── */
+[data-theme="light"] .bg-\[radial-gradient\(circle\,rgba\(16\,185\,129\,0\.08\)_0\%\,transparent_70\%\)\],
+[data-theme="light"] .bg-\[radial-gradient\(circle\,rgba\(16\,185\,129\,0\.06\)_0\%\,transparent_70\%\)\] {
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, transparent 70%) !important;
+}
+
+[data-theme="light"] .bg-\[radial-gradient\(circle\,rgba\(56\,189\,248\,0\.05\)_0\%\,transparent_70\%\)\] {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%) !important;
+}
+
+/* Hero Avatar ambient glow behind image frame */
+[data-theme="light"] .bg-gradient-to-tr.from-emerald-500\/20.via-sky-500\/20.to-emerald-500\/10 {
+  background: linear-gradient(to top right, rgba(37, 99, 235, 0.12), rgba(56, 189, 248, 0.1), rgba(37, 99, 235, 0.08)) !important;
+}
+
+/* ── TIMELINE CONNECTOR RAIL ── */
+[data-theme="light"] .from-emerald-500\/40.via-zinc-800.to-transparent {
+  background: linear-gradient(to bottom, rgba(37, 99, 235, 0.4), #cbd5e1, transparent) !important;
+}
+
+/* ── FORM INPUTS & TEXTAREA (Clean White with Blue Focus Rings) ── */
 [data-theme="light"] input[type="text"],
 [data-theme="light"] input[type="email"],
 [data-theme="light"] input[type="number"],
 [data-theme="light"] textarea,
 [data-theme="light"] select {
   background-color: #ffffff !important;
-  border-color: #d2cfc9 !important;
+  border-color: #cbd5e1 !important;
   color: #0f172a !important;
 }
 
 [data-theme="light"] input::placeholder,
 [data-theme="light"] textarea::placeholder {
-  color: #64748b !important;
+  color: #94a3b8 !important;
 }
 
 [data-theme="light"] input:focus,
 [data-theme="light"] textarea:focus {
-  border-color: var(--color-primary) !important;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
 }
 
-/* ── Soft Shadows in Light Mode ── */
+/* ── SUBTLE MODERN SHADOWS IN LIGHT MODE ── */
 [data-theme="light"] .shadow-xl,
 [data-theme="light"] .shadow-2xl {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.02) !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.02) !important;
 }
 
 [data-theme="light"] .shadow-lg {
-  box-shadow: 0 6px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -4px rgba(0, 0, 0, 0.02) !important;
+  box-shadow: 0 6px 15px -3px rgba(15, 23, 42, 0.04), 0 4px 6px -4px rgba(15, 23, 42, 0.02) !important;
+}
+
+[data-theme="light"] .shadow-md {
+  box-shadow: 0 4px 8px -2px rgba(15, 23, 42, 0.04) !important;
 }

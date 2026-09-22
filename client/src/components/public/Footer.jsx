@@ -3,43 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { fetchWebsiteSettings } from '../../services/websiteSettingsApi.js';
 import { fetchProfile } from '../../services/profileApi.js';
 import { fetchSocialLinks } from '../../services/socialLinksApi.js';
+import { resolveSocialIcon } from '../../utils/socialIconResolver.jsx';
 import {
   Code2,
   Lock,
   ArrowUp,
-  FolderGit2,
-  Globe,
   Mail,
-  Link as LinkIcon,
-  ExternalLink,
 } from 'lucide-react';
-
-// Safe icon dictionary for social platforms matching Hero and Contact
-const SOCIAL_ICONS = {
-  GitHub: FolderGit2,
-  LinkedIn: Globe,
-  Facebook: Globe,
-  Instagram: Globe,
-  YouTube: Globe,
-  X: Globe,
-  Email: Mail,
-  Telegram: Globe,
-  Discord: Globe,
-  WhatsApp: Globe,
-  Other: LinkIcon,
-  Globe,
-  Link: LinkIcon,
-  Mail,
-  ExternalLink,
-};
-
-function resolveSocialIcon(iconName, platform) {
-  const Icon =
-    (iconName && SOCIAL_ICONS[iconName]) ||
-    (platform && SOCIAL_ICONS[platform]) ||
-    Globe;
-  return <Icon className="w-4 h-4" />;
-}
 
 const QUICK_LINKS = [
   { name: 'Home', href: '#hero' },

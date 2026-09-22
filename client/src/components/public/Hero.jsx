@@ -3,44 +3,14 @@ import { motion } from 'framer-motion';
 import { fetchProfile } from '../../services/profileApi.js';
 import { fetchSocialLinks } from '../../services/socialLinksApi.js';
 import { getMediaUrl } from '../../utils/mediaUtils.js';
+import { resolveSocialIcon } from '../../utils/socialIconResolver.jsx';
 import {
   ArrowRight,
   Download,
   Mail,
-  Globe,
-  Link as LinkIcon,
   Code2,
-  FolderGit2,
-  ExternalLink,
   Sparkles,
 } from 'lucide-react';
-
-// Safe icon dictionary for social platforms
-const SOCIAL_ICONS = {
-  GitHub: FolderGit2,
-  LinkedIn: Globe,
-  Facebook: Globe,
-  Instagram: Globe,
-  YouTube: Globe,
-  X: Globe,
-  Email: Mail,
-  Telegram: Globe,
-  Discord: Globe,
-  WhatsApp: Globe,
-  Other: LinkIcon,
-  Globe,
-  Link: LinkIcon,
-  Mail,
-  ExternalLink,
-};
-
-function resolveSocialIcon(iconName, platform) {
-  const Icon =
-    (iconName && SOCIAL_ICONS[iconName]) ||
-    (platform && SOCIAL_ICONS[platform]) ||
-    Globe;
-  return <Icon className="w-4 h-4" />;
-}
 
 // Fallback defaults for safety when profile is null or API is initializing
 const DEFAULT_HERO = {

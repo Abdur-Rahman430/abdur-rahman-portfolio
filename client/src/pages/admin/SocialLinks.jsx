@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../hooks/useAuth.js';
 import {
   fetchAllSocialLinks,
@@ -6,6 +6,10 @@ import {
   updateSocialLink,
   deleteSocialLink,
 } from '../../services/socialLinksApi.js';
+import {
+  PLATFORM_PRESETS,
+  resolveSocialIcon,
+} from '../../utils/socialIconResolver.jsx';
 import {
   Plus,
   Edit2,
@@ -18,50 +22,106 @@ import {
   Save,
   Eye,
   EyeOff,
-  Link,
-  Globe,
-  Mail,
   ExternalLink,
+  ChevronDown,
+  Check,
 } from 'lucide-react';
-
-// ─── Safe icon dictionary (no eval, no dynamic imports) ──────────────────────
-
-const SOCIAL_ICON_MAP = {
-  Globe,
-  Link,
-  Mail,
-  ExternalLink,
-  Share2,
-};
-
-const PLATFORM_PRESETS = [
-  { platform: 'GitHub', icon: 'Globe', urlHint: 'https://github.com/username' },
-  { platform: 'LinkedIn', icon: 'Globe', urlHint: 'https://linkedin.com/in/username' },
-  { platform: 'Facebook', icon: 'Globe', urlHint: 'https://facebook.com/username' },
-  { platform: 'Instagram', icon: 'Globe', urlHint: 'https://instagram.com/username' },
-  { platform: 'YouTube', icon: 'Globe', urlHint: 'https://youtube.com/@channel' },
-  { platform: 'X', icon: 'Globe', urlHint: 'https://x.com/username' },
-  { platform: 'Email', icon: 'Mail', urlHint: 'mailto:you@example.com' },
-  { platform: 'Telegram', icon: 'Globe', urlHint: 'https://t.me/username' },
-  { platform: 'Discord', icon: 'Globe', urlHint: 'https://discord.gg/invite' },
-  { platform: 'WhatsApp', icon: 'Globe', urlHint: 'https://wa.me/phonenumber' },
-  { platform: 'Other', icon: 'Link', urlHint: 'https://example.com' },
-];
-
-const ICON_OPTIONS = Object.keys(SOCIAL_ICON_MAP);
-
-function resolveSocialIcon(iconName, props = {}) {
-  const Icon = SOCIAL_ICON_MAP[iconName] || Globe;
-  return <Icon {...props} />;
-}
 
 const EMPTY_FORM = {
   platform: 'GitHub',
   url: '',
-  icon: 'Globe',
+  icon: 'GitHub',
   active: true,
   order: 0,
 };
+
+function PlatformSelect({ value, onChange, error }) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef(null);
+
+  const selectedPreset =
+    PLATFORM_PRESETS.find((p) => p.platform.toLowerCase() === (value || '').toLowerCase()) ||
+    PLATFORM_PRESETS[0];
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [open]);
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className={`w-full px-3 py-2 rounded-xl bg-zinc-800/60 border ${
+          error
+            ? 'border-red-500/60 focus:border-red-500'
+            : 'border-zinc-700/60 focus:border-zinc-500'
+        } text-xs text-zinc-100 flex items-center justify-between gap-2.5 transition-colors cursor-pointer hover:bg-zinc-800`}
+      >
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-6 h-6 rounded-lg bg-zinc-900 border border-zinc-700 flex items-center justify-center text-emerald-400 shrink-0">
+            {resolveSocialIcon(selectedPreset.icon, selectedPreset.platform, { className: 'w-3.5 h-3.5' })}
+          </div>
+          <span className="font-semibold text-zinc-100 truncate">{selectedPreset.platform}</span>
+        </div>
+        <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          aria-label="Supported social platforms"
+          className="absolute left-0 right-0 top-full mt-1.5 z-30 max-h-56 overflow-y-auto rounded-xl bg-zinc-900 border border-zinc-700 shadow-2xl p-1.5 space-y-0.5"
+        >
+          {PLATFORM_PRESETS.map((p) => {
+            const isSelected = p.platform.toLowerCase() === (value || '').toLowerCase();
+            return (
+              <button
+                key={p.platform}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                onClick={() => {
+                  onChange(p.platform);
+                  setOpen(false);
+                }}
+                className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-xs transition-colors cursor-pointer ${
+                  isSelected
+                    ? 'bg-emerald-500/15 text-emerald-400 font-semibold'
+                    : 'text-zinc-200 hover:bg-zinc-800 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <div
+                    className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
+                      isSelected
+                        ? 'bg-emerald-500/20 text-emerald-400'
+                        : 'bg-zinc-800 border border-zinc-700/60 text-zinc-300'
+                    }`}
+                  >
+                    {resolveSocialIcon(p.icon, p.platform, { className: 'w-3.5 h-3.5' })}
+                  </div>
+                  <span className="font-medium">{p.platform}</span>
+                </div>
+                {isSelected && <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 // ─── Helper components ────────────────────────────────────────────────────────
 
@@ -123,14 +183,6 @@ function inputClass(hasError) {
       ? 'border-red-500/60 focus:border-red-500'
       : 'border-zinc-700/60 focus:border-zinc-500'
   } text-xs text-zinc-100 placeholder-zinc-600 outline-none transition-colors`;
-}
-
-function selectClass(hasError) {
-  return `w-full px-3 py-2 rounded-xl bg-zinc-800/60 border ${
-    hasError
-      ? 'border-red-500/60 focus:border-red-500'
-      : 'border-zinc-700/60 focus:border-zinc-500'
-  } text-xs text-zinc-100 outline-none transition-colors`;
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
@@ -477,17 +529,13 @@ export default function AdminSocialLinks() {
             {/* Body */}
             <div className="overflow-y-auto flex-1 px-6 py-5">
               <form id="social-link-form" onSubmit={handleSubmit} className="space-y-4" noValidate>
-                {/* Platform */}
+                {/* Platform & Official Brand Icon Selection */}
                 <FormRow label="Platform *" error={fieldErrors.platform}>
-                  <select
+                  <PlatformSelect
                     value={form.platform}
-                    onChange={(e) => handlePlatformChange(e.target.value)}
-                    className={selectClass(fieldErrors.platform)}
-                  >
-                    {PLATFORM_PRESETS.map((p) => (
-                      <option key={p.platform} value={p.platform}>{p.platform}</option>
-                    ))}
-                  </select>
+                    onChange={handlePlatformChange}
+                    error={fieldErrors.platform}
+                  />
                 </FormRow>
 
                 {/* URL */}
@@ -502,23 +550,21 @@ export default function AdminSocialLinks() {
                   />
                 </FormRow>
 
-                {/* Icon */}
-                <FormRow label="Icon" error={fieldErrors.icon}>
+                {/* Official Brand Icon Badge Preview */}
+                <div className="p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <select
-                      value={form.icon}
-                      onChange={(e) => setForm((prev) => ({ ...prev, icon: e.target.value }))}
-                      className={`flex-1 ${selectClass(fieldErrors.icon)}`}
-                    >
-                      {ICON_OPTIONS.map((name) => (
-                        <option key={name} value={name}>{name}</option>
-                      ))}
-                    </select>
-                    <div className="w-9 h-9 rounded-xl bg-zinc-800 border border-zinc-700 flex items-center justify-center text-emerald-400 shrink-0">
-                      {resolveSocialIcon(form.icon, { className: 'w-4 h-4' })}
+                    <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-700/80 flex items-center justify-center text-emerald-400 shrink-0">
+                      {resolveSocialIcon(form.icon, form.platform, { className: 'w-4 h-4' })}
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-zinc-200">{form.platform}</p>
+                      <p className="text-[11px] text-zinc-500">Official Brand Icon</p>
                     </div>
                   </div>
-                </FormRow>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    Active Brand
+                  </span>
+                </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   {/* Order */}
@@ -649,7 +695,7 @@ function LinkCard({ link, onEdit, onDelete, onToggle }) {
       <div className="flex items-center gap-3">
         {/* Icon */}
         <div className="w-9 h-9 rounded-xl bg-zinc-800/80 border border-zinc-700/60 flex items-center justify-center text-emerald-400 shrink-0">
-          {resolveSocialIcon(link.icon, { className: 'w-4 h-4' })}
+          {resolveSocialIcon(link.icon, link.platform, { className: 'w-4 h-4' })}
         </div>
 
         {/* Content */}

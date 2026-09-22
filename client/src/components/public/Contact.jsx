@@ -3,50 +3,19 @@ import { motion } from 'framer-motion';
 import { sendMessage } from '../../services/contactApi.js';
 import { fetchProfile } from '../../services/profileApi.js';
 import { fetchSocialLinks } from '../../services/socialLinksApi.js';
+import { resolveSocialIcon } from '../../utils/socialIconResolver.jsx';
 import {
-  Mail,
   Send,
   Loader2,
   CheckCircle2,
   AlertCircle,
   Sparkles,
   MessageSquare,
-  Globe,
-  Link as LinkIcon,
-  FolderGit2,
-  ExternalLink,
   Clock,
   User,
 } from 'lucide-react';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-// Safe icon dictionary for social platforms
-const SOCIAL_ICONS = {
-  GitHub: FolderGit2,
-  LinkedIn: Globe,
-  Facebook: Globe,
-  Instagram: Globe,
-  YouTube: Globe,
-  X: Globe,
-  Email: Mail,
-  Telegram: Globe,
-  Discord: Globe,
-  WhatsApp: Globe,
-  Other: LinkIcon,
-  Globe,
-  Link: LinkIcon,
-  Mail,
-  ExternalLink,
-};
-
-function resolveSocialIcon(iconName, platform) {
-  const Icon =
-    (iconName && SOCIAL_ICONS[iconName]) ||
-    (platform && SOCIAL_ICONS[platform]) ||
-    Globe;
-  return <Icon className="w-4 h-4" />;
-}
 
 export default function Contact() {
   // Form input state

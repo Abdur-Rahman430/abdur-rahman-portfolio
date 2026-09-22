@@ -24,6 +24,17 @@
       name="twitter:description"
       content="Full-stack software engineer portfolio showcasing web applications, technical skills, projects, and career journey."
     />
+    <!-- Anti-flash: apply saved public theme before React hydrates -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('portfolio-theme');
+          if (t === 'light' || t === 'dark') {
+            document.documentElement.setAttribute('data-theme', t);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="antialiased selection:bg-emerald-500/20 selection:text-emerald-300">
     <div id="root"></div>

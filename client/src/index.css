@@ -11,9 +11,9 @@
   --color-text: #f4f4f5;
 }
 
-/* Light theme overrides — activated when applyTheme sets data-theme="light" */
+/* Light theme overrides — activated when data-theme="light" is on <html> */
 [data-theme="light"] {
-  --color-background: #f9fafb;
+  --color-background: #f8f7f4;
   --color-text: #18181b;
   --color-secondary: #e4e4e7;
 }
@@ -22,7 +22,7 @@
 body {
   background-color: var(--color-background) !important;
   color: var(--color-text) !important;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 /* Dynamic Primary Color overrides so Admin Appearance changes affect all buttons/badges */
@@ -51,42 +51,6 @@ body {
   background-color: color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
 }
 
-/* Light theme card surface & border overrides */
-[data-theme="light"] footer,
-[data-theme="light"] header,
-[data-theme="light"] .bg-zinc-950 {
-  background-color: var(--color-background) !important;
-  color: var(--color-text) !important;
-}
-
-[data-theme="light"] .bg-zinc-900,
-[data-theme="light"] .bg-zinc-900\/40,
-[data-theme="light"] .bg-zinc-900\/50,
-[data-theme="light"] .bg-zinc-900\/60,
-[data-theme="light"] .bg-zinc-900\/80,
-[data-theme="light"] .bg-zinc-900\/90 {
-  background-color: #ffffff !important;
-  border-color: #e5e7eb !important;
-}
-
-[data-theme="light"] .border-zinc-800,
-[data-theme="light"] .border-zinc-800\/80,
-[data-theme="light"] .border-zinc-800\/90,
-[data-theme="light"] .border-zinc-900 {
-  border-color: #e5e7eb !important;
-}
-
-[data-theme="light"] .text-zinc-100,
-[data-theme="light"] .text-zinc-200,
-[data-theme="light"] .text-zinc-300 {
-  color: #111827 !important;
-}
-
-[data-theme="light"] .text-zinc-400,
-[data-theme="light"] .text-zinc-500 {
-  color: #4b5563 !important;
-}
-
 /* Respect user's reduced-motion accessibility preference */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -99,3 +63,153 @@ body {
   }
 }
 
+/* =============================================================================
+   LIGHT MODE — Comprehensive public component overrides
+   Applied when data-theme="light" is on <html>.
+   Admin dashboard uses hardcoded dark classes and is NOT affected here.
+   ============================================================================= */
+
+/* -- Page structure: header, footer, deepest zinc-950 backgrounds ----------- */
+[data-theme="light"] header,
+[data-theme="light"] footer,
+[data-theme="light"] .bg-zinc-950 {
+  background-color: #f1f0ed !important;
+  color: #18181b !important;
+}
+
+/* Navbar scrolled glass backdrop */
+[data-theme="light"] .bg-zinc-950\/80 {
+  background-color: rgba(241, 240, 237, 0.88) !important;
+  border-color: #dddcda !important;
+}
+
+/* Mobile drawer panel */
+[data-theme="light"] .bg-zinc-950\/95 {
+  background-color: rgba(241, 240, 237, 0.97) !important;
+}
+
+/* Skill chips, tech badges, timeline date badge */
+[data-theme="light"] .bg-zinc-950\/70,
+[data-theme="light"] .bg-zinc-950\/60 {
+  background-color: #f4f3f0 !important;
+  border-color: #dddcda !important;
+}
+
+/* -- Card / panel surfaces -------------------------------------------------- */
+[data-theme="light"] .bg-zinc-900,
+[data-theme="light"] .bg-zinc-900\/50,
+[data-theme="light"] .bg-zinc-900\/60,
+[data-theme="light"] .bg-zinc-900\/80,
+[data-theme="light"] .bg-zinc-900\/90 {
+  background-color: #ffffff !important;
+  border-color: #e5e4e0 !important;
+}
+
+[data-theme="light"] .bg-zinc-900\/40,
+[data-theme="light"] .bg-zinc-900\/30 {
+  background-color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* Skill chip icon bg, timeline node bg, small inner icon boxes */
+[data-theme="light"] .bg-zinc-900\/80 {
+  background-color: #f0ede9 !important;
+}
+
+/* Filter tabs inactive bg */
+[data-theme="light"] .bg-zinc-900\/60 {
+  background-color: #f0ede9 !important;
+}
+
+/* Input / form field fill */
+[data-theme="light"] .bg-zinc-800\/60 {
+  background-color: #f8f7f4 !important;
+}
+
+/* -- Borders ----------------------------------------------------------------- */
+[data-theme="light"] .border-zinc-800,
+[data-theme="light"] .border-zinc-800\/40,
+[data-theme="light"] .border-zinc-800\/60,
+[data-theme="light"] .border-zinc-800\/80,
+[data-theme="light"] .border-zinc-800\/90,
+[data-theme="light"] .border-zinc-900 {
+  border-color: #e5e4e0 !important;
+}
+
+[data-theme="light"] .border-zinc-700,
+[data-theme="light"] .border-zinc-700\/60,
+[data-theme="light"] .border-zinc-700\/80 {
+  border-color: #d4d3d0 !important;
+}
+
+/* -- Primary text ------------------------------------------------------------ */
+[data-theme="light"] .text-zinc-100,
+[data-theme="light"] .text-zinc-200 {
+  color: #18181b !important;
+}
+
+[data-theme="light"] .text-zinc-300 {
+  color: #3f3f46 !important;
+}
+
+/* -- Secondary / muted text -------------------------------------------------- */
+[data-theme="light"] .text-zinc-400 {
+  color: #52525b !important;
+}
+
+[data-theme="light"] .text-zinc-500 {
+  color: #71717a !important;
+}
+
+[data-theme="light"] .text-zinc-600 {
+  color: #a1a1aa !important;
+}
+
+/* -- Hover backgrounds ------------------------------------------------------- */
+[data-theme="light"] .hover\:bg-zinc-800\/50:hover,
+[data-theme="light"] .hover\:bg-zinc-800\/60:hover,
+[data-theme="light"] .hover\:bg-zinc-800:hover {
+  background-color: #ece9e4 !important;
+}
+
+[data-theme="light"] .hover\:bg-zinc-900:hover {
+  background-color: #ede9e4 !important;
+}
+
+/* -- Hover borders ----------------------------------------------------------- */
+[data-theme="light"] .hover\:border-zinc-700\/80:hover,
+[data-theme="light"] .hover\:border-zinc-700:hover {
+  border-color: #c4c3c0 !important;
+}
+
+/* -- Hover text -------------------------------------------------------------- */
+[data-theme="light"] .hover\:text-zinc-100:hover,
+[data-theme="light"] .hover\:text-zinc-200:hover,
+[data-theme="light"] .hover\:text-white:hover {
+  color: #09090b !important;
+}
+
+[data-theme="light"] .hover\:text-zinc-300:hover {
+  color: #27272a !important;
+}
+
+/* -- Form inputs & textarea -------------------------------------------------- */
+[data-theme="light"] input[type="text"],
+[data-theme="light"] input[type="email"],
+[data-theme="light"] input[type="number"],
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background-color: #f8f7f4 !important;
+  border-color: #dddcda !important;
+  color: #18181b !important;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #a1a1aa !important;
+}
+
+[data-theme="light"] input:focus,
+[data-theme="light"] textarea:focus {
+  border-color: color-mix(in srgb, var(--color-primary) 55%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent);
+}

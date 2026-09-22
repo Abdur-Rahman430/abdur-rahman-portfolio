@@ -5,7 +5,11 @@ import {
   X,
   Code2,
   Lock,
+  Sun,
+  Moon,
 } from 'lucide-react';
+import { useTheme } from '../../hooks/useTheme.js';
+
 
 const NAV_LINKS = [
   { name: 'Home', href: '#hero' },
@@ -20,6 +24,8 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { isDark, toggleTheme } = useTheme();
+
 
   // Detect scroll position to add elevated backdrop blur
   useEffect(() => {
@@ -99,8 +105,23 @@ export default function Navbar() {
               </a>
             ))}
 
+            {/* Theme Toggle */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              className="p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/50 transition-all cursor-pointer"
+            >
+              {isDark ? (
+                <Sun className="w-4 h-4" />
+              ) : (
+                <Moon className="w-4 h-4" />
+              )}
+            </button>
+
             {/* Admin Console Shortcut */}
-            <div className="ml-3 pl-3 border-l border-zinc-800">
+            <div className="ml-1 pl-3 border-l border-zinc-800">
               <Link
                 to="/admin/login"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 border border-zinc-800/80 transition-all cursor-pointer"
@@ -112,8 +133,24 @@ export default function Navbar() {
             </div>
           </nav>
 
+
           {/* Mobile Menu Toggle Button */}
           <div className="flex items-center gap-2 md:hidden">
+            {/* Theme Toggle */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              className="p-2 rounded-lg text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 border border-zinc-800/80 transition-all cursor-pointer"
+            >
+              {isDark ? (
+                <Sun className="w-4 h-4" />
+              ) : (
+                <Moon className="w-4 h-4" />
+              )}
+            </button>
+
             <Link
               to="/admin/login"
               className="p-2 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 border border-zinc-800/80 transition-all"
@@ -150,7 +187,22 @@ export default function Navbar() {
             </a>
           ))}
 
-          <div className="pt-2 border-t border-zinc-800/80 mt-2">
+          <div className="pt-2 border-t border-zinc-800/80 mt-2 space-y-1">
+            {/* Theme Toggle in drawer */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              className="flex items-center gap-2 w-full px-3 py-2.5 rounded-xl text-xs font-medium text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900 border border-zinc-800/80 transition-all"
+            >
+              {isDark ? (
+                <Sun className="w-3.5 h-3.5 text-amber-400" />
+              ) : (
+                <Moon className="w-3.5 h-3.5 text-indigo-400" />
+              )}
+              <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+            </button>
+
             <Link
               to="/admin/login"
               onClick={() => setMobileMenuOpen(false)}
